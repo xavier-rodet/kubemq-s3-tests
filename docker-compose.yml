@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  # kubemq:
+  #   container_name: kubemq
+  #   image: kubemq/kubemq
+  #   ports:
+  #     # - 8080:8080
+  #     # - 9090:9090
+  #     - 50000:50000
+  #   environment:
+  #     # KUBEMQ_HOST: kubemq
+  #     KUBEMQ_TOKEN: XXX
+  #   # networks:
+  #   #   - project-network
+  #   # volumes:
+  #   #   - csgo-st-kubemq-volume:/store
+
+  kubemq-s3:
+    build:
+      context: .
+      args:
+        SPACE_NAME: kubemq-test-space
+        SPACE_URL: https://kubemq-test-space.fra1.digitaloceanspaces.com/
+        SPACE_KEY: XXXXXXX
+        SPACE_TOKEN: XXXXXXXXXXXXXX
+    ports:
+      # - 8080:8080
+      # - 9090:9090
+      - 50000:50000
+    environment:
+      # KUBEMQ_HOST: kubemq
+      KUBEMQ_TOKEN: XXX
+      # SPACE_NAME: kubemq-test-space
+      # SPACE_URL: https://kubemq-test-space.fra1.digitaloceanspaces.com/
+      # SPACE_KEY: XXXXXXX
+      # SPACE_TOKEN: XXXXXXXXXXXXXX
+    command: ['/kubemq/start.sh', '--privileged']
+    # command:
+    #   [
+    #     's3fs $SPACE_NAME ./store -o passwd_file=./.passwd-s3fs -o url=$SPACE_URL -o allow_other -o use_path_request_style -o uid=1001 -o gid=0',
+    #     '&&',
+    #     './kubemq-run',
+    #     '--privileged',
+    #   ]
+#SEE: https://github.com/zalando/zalenium/issues/1087
+
+# command: modprobe fuse
+
+# export SPACE_NAME=kubemq-test-space SPACE_URL=https://kubemq-test-space.fra1.digitaloceanspaces.com/ SPACE_KEY=XXXXXXX SPACE_TOKEN=XXXXXXXXXXXXXX && echo "$SPACE_KEY:$SPACE_TOKEN" >> /kubemq/.passwd-s3fs && chmod 600 /kubemq/.passwd-s3fs && s3fs $SPACE_NAME ./test-folder -o passwd_file=./.passwd-s3fs -o url=$SPACE_URL -o allow_other -o use_path_request_style -o uid=1001 -o gid=0
+
+# export SPACE_NAME=kubemq-test-space SPACE_URL=https://kubemq-test-space.fra1.digitaloceanspaces.com/ SPACE_KEY=XXXXXXX SPACE_TOKEN=XXXXXXXXXXXXXX && docker build -t kubemq-s3 .
+
+
+docker build --build-arg SPACE_NAME=kubemq-test-space --build-arg SPACE_URL=https://fra1.digitaloceanspaces.com --build-arg SPACE_KEY=XXXXXXX --build-arg SPACE_TOKEN=XXXXXXXXXXXXXX -t kubemq-s3 .
+docker run --privileged kubemq-s3
+docker run --privileged -it kubemq-s3 /bin/sh

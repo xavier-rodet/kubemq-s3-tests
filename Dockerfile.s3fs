@@ -1,0 +1,146 @@
+FROM kubemq/kubemq:v2.2.1
+
+ARG SPACE_NAME
+ENV SPACE_NAME=$SPACE_NAME
+ARG SPACE_URL
+ENV SPACE_URL=$SPACE_URL
+ARG SPACE_KEY
+ENV SPACE_KEY=$SPACE_KEY
+ARG SPACE_TOKEN
+ENV SPACE_TOKEN=$SPACE_TOKEN
+
+USER root
+
+WORKDIR /tmp
+
+# # Download Yum package manager & deps
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/l/libreport-filesystem-2.13.1-5.fc32.noarch.rpm
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/d/dnf-data-4.6.0-1.fc32.noarch.rpm
+
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/l/libmodulemd-2.12.0-1.fc32.x86_64.rpm
+
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/p/python3-3.8.7-2.fc32.x86_64.rpm
+
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/p/python3-gpg-1.14.0-1.fc32.x86_64.rpm
+
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/p/python3-hawkey-0.58.0-2.fc32.x86_64.rpm
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/p/python3-libcomps-0.1.15-1.fc32.x86_64.rpm
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/p/python3-libdnf-0.58.0-2.fc32.x86_64.rpm
+# # RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/p/python3-rpm-4.15.1-3.fc32.1.x86_64.rpm
+
+
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/p/python3-dnf-4.6.0-1.fc32.noarch.rpm
+
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/d/dnf-4.6.0-1.fc32.noarch.rpm
+# RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/y/yum-4.6.0-1.fc32.noarch.rpm
+
+# # Install YUM package manager & deps
+# # RUN rpm -i dnf-4.6.0-1.fc32.noarch.rpm
+# # RUN rpm -i yum-4.6.0-1.fc32.noarch.rpm
+# # RUN rpm -ivh yum-4.6.0-1.fc32.noarch.rpm
+# RUN rpm -i libreport-filesystem-2.13.1-5.fc32.noarch.rpm dnf-data-4.6.0-1.fc32.noarch.rpm  libmodulemd-2.12.0-1.fc32.x86_64.rpm python3*.rpm python3-dnf-4.6.0-1.fc32.noarch.rpm dnf-4.6.0-1.fc32.noarch.rpm yum-4.6.0-1.fc32.noarch.rpm
+
+
+# Directly install s3fs-fuse from rpm
+
+# RUN curl -O 
+# RUN curl -O 
+# RUN curl -O 
+# RUN curl -O 
+# RUN curl -O 
+# RUN curl -O 
+# RUN curl -O 
+# RUN curl -O 
+# RUN curl -O 
+
+# https://fr.wikipedia.org/wiki/Red_Hat_Enterprise_Linux
+# from : https://fedora.pkgs.org/32/fedora-updates-x86_64/s3fs-fuse-1.89-1.fc32.x86_64.rpm.html
+
+RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/f/fuse-libs-2.9.9-9.fc32.x86_64.rpm
+
+RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/testing/32/Everything/x86_64/Packages/f/fuse-common-3.9.1-1.fc32.x86_64.rpm
+
+RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/w/which-2.21-19.fc32.x86_64.rpm
+RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/f/fuse-2.9.9-9.fc32.x86_64.rpm
+
+RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/m/mailcap-2.1.48-7.fc32.noarch.rpm
+
+RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/updates/32/Everything/x86_64/Packages/s/s3fs-fuse-1.89-1.fc32.x86_64.rpm
+
+RUN rpm -ivh fuse-libs-2.9.9-9.fc32.x86_64.rpm fuse-common-3.9.1-1.fc32.x86_64.rpm which-2.21-19.fc32.x86_64.rpm fuse-2.9.9-9.fc32.x86_64.rpm mailcap-2.1.48-7.fc32.noarch.rpm s3fs-fuse-1.89-1.fc32.x86_64.rpm
+
+
+# install kmod for modprobe cmd
+RUN curl -O https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/k/kmod-27-1.fc32.x86_64.rpm
+RUN rpm -ivh kmod-27-1.fc32.x86_64.rpm
+# RUN modprobe --list
+
+# RUN usermod -a -G trusted `whoami`
+# RUN usermod -a -G trusted 1001
+
+# RUN dnf update
+# RUN dnf install s3fs-fuse
+
+
+# RUN apt-get update
+# RUN apt-get install s3fs
+
+RUN rm -R *
+
+ # uncomment user_allow_other
+RUN sed -i'' 's/^# *user_allow_other/user_allow_other/' /etc/fuse.conf
+# make it readable by anybody, it is not the default
+RUN chmod a+r /etc/fuse.conf
+
+# load kernel module 
+# RUN modprobe fuse
+# equals to (?):
+# RUN mkdir /etc/modules-load.d/
+# RUN touch /etc/modules-load.d/fuse.conf
+# RUN echo fuse > /etc/modules-load.d/fuse.conf
+
+WORKDIR /kubemq
+
+RUN touch .passwd-s3fs
+# RUN chown 1001 .passwd-s3fs
+
+RUN echo "$SPACE_KEY:$SPACE_TOKEN" >> .passwd-s3fs && \
+    chmod 600 .passwd-s3fs
+    #  && chown 1001 .passwd-s3fs
+
+RUN mkdir store
+RUN s3fs $SPACE_NAME store -o passwd_file=.passwd-s3fs -o url=$SPACE_URL -o allow_other -o use_path_request_style -o uid=1001 -o gid=0
+
+# COPY start.sh start.sh
+# CMD ["./start.sh"]
+
+
+# USER 1001
+
+
+
+
+
+# RUN mkdir store
+# Note: we should have run "chmod +x mount-store.sh" on our file (docker keep the same permissions)
+# COPY mount-store.sh mount-store.sh
+# COPY start.sh start.sh
+
+
+
+# RUN chmod g+rwX  /kubemq
+# RUN chmod g+x mount-store.sh
+# RUN chmod +x mount-store.sh
+
+# RUN echo $SPACE_KEY:$SPACE_TOKEN > ~/.passwd-s3fs
+# RUN chmod 600 ~/.passwd-s3fs
+
+# # RUB s3fs <space_name> <folder> -o url=https://<url>.digitaloceanspaces.com -o use_cache=/tmp -o allow_other -o use_path_request_style -o uid=<uid> -o gid=<gid>
+# RUN s3fs $SPACE_NAME store -o url=https://$SPACE_URL.digitaloceanspaces.com -o use_cache=/tmp -o allow_other -o use_path_request_style
+
+
+
+# CMD ["./mount-store.sh", "&&", "./kubemq-run"]
+# CMD ["./kubemq-run"]
+# CMD ["s3fs $SPACE_NAME ./store -o passwd_file=./.passwd-s3fs -o url=$SPACE_URL -o allow_other -o use_path_request_style -o uid=1001 -o gid=0", "&&", "./kubemq-run"]
+# CMD ["./start.sh"]
